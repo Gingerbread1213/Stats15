@@ -1,0 +1,23 @@
+---
+title: "Stats 15 - Homework 1"
+author: "Vincent"
+geometry: "left=2cm,right=2cm,top=1.5cm,bottom=1.5cm"
+output: pdf_document
+---
+  
+```{r}
+library(knitr)
+library(ggplot2)
+library(magrittr)
+library(tidyverse)
+```
+
+```{r}
+p <- data.frame(c(0.8, 0.6, 0.4, 0.2, 0.01))
+df <- data.frame((1000*p*0.5)/950)
+
+r <- data.frame(height = c(0.8, 0.6, 0.4, 0.2, 0.01), 
+                 weight = c(0.421052632, 0.315789474, 0.210526316, 0.105263158, 0.005263158	)
+print(r)
+
+```

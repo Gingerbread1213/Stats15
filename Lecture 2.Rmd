@@ -1,0 +1,51 @@
+---
+title: "Stats 15 - Lecture 1"
+author: "Vincent"
+geometry: "left=2cm,right=2cm,top=1.5cm,bottom=1.5cm"
+output: pdf_document
+---
+  
+```{r, echo = FALSE}
+library(knitr)
+library(ggplot2)
+library(tidyverse)
+library(gcookbook)
+```
+
+```{r, echo = FALSE, out.height = "3in"}
+
+ggplot(
+  pg_mean,
+  mapping = aes(
+    x = group,
+    y = weight,
+    color = group,
+  )
+)+
+geom_col(fill = "lightblue", color = "red", lwd = 2, width = 0.5)
+
+cabbage_exp[,1:4]
+ ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+    geom_col(position="dodge")
+ 
+  ggplot(cabbage_exp, aes(x = Date, y = Weight, fill = Cultivar)) +
+    geom_col(position = "stack")
+#[row,coloums]
+
+  
+  upc <- uspopchange %>%
+  arrange(desc(Change)) %>%
+  slice(1:10)
+  
+  arrange(upc,desc(Change))
+  
+  
+```
+
+##test.cpp #c++ 
+#test.java #java
+#test.css #element
+#test.json #javascript 
+#test.Rmd #R markdown 
+#test.R 
+#test.py #python

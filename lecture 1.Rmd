@@ -1,0 +1,49 @@
+---
+title: "Stats 15 - Homework 1"
+author: "Vincent"
+geometry: "left=2cm,right=2cm,top=1.5cm,bottom=1.5cm"
+output: pdf_document
+---
+  
+```{r, echo = FALSE}
+library(knitr)
+library(ggplot2)
+```
+
+```{r, echo = FALSE, out.height = "3in"}
+df <- data.frame(
+  height = c( 62,  67,  72,  68,  66,  65),
+  weight = c(120, 140, 190, 165, 135, 160),
+  gender = c("F", "F", "M", "M", "M", "F"),
+  hair = c("Brown", "Black", "Blonde", "Black", "Brown", "Blonde")
+  )
+print(df)
+
+# p <- 指定变量/容器
+
+  ggplot(df, aes(x = height, y = weight)) + theme_linedraw()+
+  geom_point(aes(color = gender), size =5)+ 
+  scale_x_continuous(limits = c(60,80)) +
+  scale_y_continuous(limits = c(60,1000))+
+  scale_color_manual(values=c("pink", "skyblue"))
+
+ ggplot(data = df,
+       mapping = aes(
+         x = height,
+         y = hair,
+         color = weight,
+         shape = gender
+         )) +
+  geom_point(size = 10) + theme_linedraw()
+
+colors = ifelse(df$gender == "F", "Red", "Blue")
+# if else statement ifelse(con, state1(true), state2(false))
+
+ints = as.integer(factor(df$hair)) # becomes c(3, 1, 2, 1, 3, 2)直接定义成一个整数类型
+
+shapes = c(16, 17, 15)[ints]
+
+
+
+
+```
