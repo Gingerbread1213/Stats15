@@ -1,0 +1,151 @@
+---
+title: "Lecture 6"
+author: "Vincent"
+date: "2022-10-11"
+output: pdf_document
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(gapminder)
+library(rlang)
+library(dplyr)
+library(magrittr)
+library(tidyverse)
+
+```
+
+## R Markdown
+
+```{r}
+
+data(gapminder)
+print(gapminder, n=20)
+
+gapminder %>% 
+  summarise(
+    avg_exp = mean(lifeExp, na.rm = TRUE), 
+    # find mean
+    sd_exp = sd(lifeExp, na.rm=TRUE),
+    # standard deviation
+    min_exp = min(lifeExp, na.rm = TRUE),
+    # find min
+    med_exp = median(lifeExp, na.rm = TRUE),
+    # find median
+    q3_exp = quantile(lifeExp, prob = 0.75, na.rm = TRUE),
+    # find 0.75 quantile
+    max_exp = max(lifeExp, na.rm = TRUE),
+    # find max
+    count = n()
+    # samplesize
+    
+  )
+# na.rm tells R to ignore the missing value
+
+gapminder %>% 
+  filter(year == 2002, continent == "Americas") %>% 
+  summarise(
+    avg_exp = mean(lifeExp, na.rm = TRUE), 
+    sd_exp = sd(lifeExp, na.rm=TRUE),
+    min_exp = min(lifeExp, na.rm = TRUE),
+    med_exp = median(lifeExp, na.rm = TRUE),
+    q3_exp = quantile(lifeExp, prob = 0.75, na.rm = TRUE),
+    q3_exp = quantile(lifeExp, prob = 0.25, na.rm = TRUE),
+    max_exp = max(lifeExp, na.rm = TRUE),
+    count = n()
+    # samplesize
+  )
+
+```
+
+```{r}
+gapminder %>% 
+  filter(continent == "Americas") %>% 
+  group_by(year) %>% 
+  summarise(
+    avg_exp = mean(lifeExp, na.rm = TRUE), 
+    sd_exp = sd(lifeExp, na.rm=TRUE),
+    min_exp = min(lifeExp, na.rm = TRUE),
+    med_exp = median(lifeExp, na.rm = TRUE),
+    q1_exp = quantile(lifeExp, prob = 0.75, na.rm = TRUE),
+    q3_exp = quantile(lifeExp, prob = 0.25, na.rm = TRUE),
+    max_exp = max(lifeExp, na.rm = TRUE),
+    count = n()
+    # samplesize
+  ) %>% 
+arrange(desc(year))
+
+```
+cda
+
+```{r}
+americas_summary <- gapminder %>% 
+  filter(continent == "Americas") %>% 
+  group_by(year) %>% 
+  summarise(
+    avg_exp = mean(lifeExp, na.rm = TRUE),
+    count = n()
+  ) 
+
+
+
+
+```
+
+```{r}
+# select() vs filter()
+
+# select() pick out a single appreance in the data set
+# filter() pick out all of the data in the column
+
+gapminder  %>%
+  filter(continent == "Americas") %>% 
+  ggplot(aes(x=year,
+             y=lifeExp,
+             color = country))+
+  geom_line()+geom_point()+theme_linedraw()+
+  geom_line(data = americas_summary, mapping = aes(x=year , y=avg_exp),
+            color = "black", lwd = 2)
+
+gapminder %>% filter(year == 2007, continent == "Americas") %>% 
+  select(country, lifeExp) %>% arrange(desc(lifeExp)) %>% head()
+
+country_order <- gapminder %>% 
+  filter(year == 2007, continent == "Americas") %>% 
+  select(country,lifeExp) %>% arrange(desc(lifeExp)) %>% pull(country)
+country_order
+# place all of the country in order based on their lifeExp
+## NOTICE, this is not base on the int but the name of the country
+
+
+gapminder %>% 
+  filter(continent == "Americas")%>% 
+  ggplot(aes(x=year,
+             y=lifeExp,
+             color = factor(country, levels = country_order)))+
+  geom_line()+geom_point()+theme_linedraw()+  geom_line(data = americas_summary, mapping = aes(x=year , y=avg_exp),
+            color = "black", lwd = 2)
+
+# "levels" will determine the order saved in country_order and arrange the color base on the order.
+  
+```
+
+```{r}
+
+gapminder %>% 
+  filter(year==2007) %>% 
+  summarise(
+    total_pop = sum(pop, na.rm =TRUE),
+    count = n()
+  )
+
+gapminder %>% 
+  group_by(year) %>% 
+  summarise(
+    total_pop = sum(pop, na.rm =TRUE),
+    count = n()
+  )
+
+```
+
