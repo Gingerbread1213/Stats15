@@ -1,0 +1,221 @@
+---
+title: "Stats 15 - Homework 2"
+author: "Haojie Liu"
+geometry: "left=2cm,right=2cm,top=1.5cm,bottom=1.5cm"
+output: pdf_document
+---
+
+Homework text and questions: Copyright Miles Chen. Do not post, share, or distribute without permission.
+
+# Academic Integrity Statement
+
+By modifying this statement, I, Haojie Liu, declare that all of the work in this assignment is my own original work. At no time did I look at the code of other students nor did I search for code solutions online. I understand that plagiarism on any single part of this assignment will result in a 0 for the entire assignment and that I will be referred to the dean of students.
+
+```{r, echo = FALSE}
+library(knitr)
+library(tidyverse)
+```
+
+# Part 1: Textbook, Section 4.4, Exercise 1
+
+The subset of the `babynames` data has been recreated for you here:
+
+```{r}
+year <- c(2003, 1999, 2010, 1989, 1989, 1928, 1981, 1981, 1920, 1941)
+sex <- c("M", "F", "F", "F", "F", "M", "F", "F", "F", "M")
+name <- c("Bilal","Terria","Naziyah","Shawana","Jessi","Tillman","Leslee",
+          "Sherise","Marquerite","Lorraine")
+n <- as.integer(c(146, 23, 45, 41, 210, 43, 83, 27, 26, 24))
+prop <- c(0.0000695, 0.0000118, 0.0000230, 0.0000206, 0.000105 , 0.0000377, 
+          0.0000464, 0.0000151, 0.0000209, 0.0000191)
+baby_subset <- tibble(year, sex, name, n, prop)
+print(baby_subset)
+```
+
+Execute the appropriate `dplyr` commands that will recreate the output you see in the textbook.
+
+a. 
+```{r, error = TRUE}
+baby_subset %>% 
+  select(year,sex,name, n) %>% 
+  filter(n %in% 41:83)
+```
+
+b.
+```{r}
+baby_subset %>% 
+  filter(nchar(name) == 6)
+```
+
+c.
+
+```{r}
+
+baby_subset %>% 
+  filter(year == 1989) %>% 
+  mutate(total=n/prop)
+
+```
+
+d.
+
+```{r}
+baby_subset %>% 
+  group_by(year) %>% 
+  summarize(
+    total = sum(n)
+  ) %>% 
+  select(year, total) %>% 
+  arrange(year)
+```
+
+
+# Part 2: Textbook, Section 4.4, Exercise 3
+
+The problem with the pipeline is that there will be no column called "am" after summarize the avg_mpg by mean(mpg). Therefore, no data will be filter out from the statement.
+
+
+# Part 3: Textbook, Section 4.4, Exercise 4
+
+```{r  fig.width = 30, fig.asp = 0.8, out.width = "100%"}
+library(Lahman)
+Teams %>% 
+  tail()
+
+
+Teams %>% 
+  mutate( X1B = H-X2B-X3B-HR) %>% 
+  summarize(
+    BA = H/AB,
+    SLG = ( X1B + 2*X2B + 3*X3B + 4*HR)/AB,
+    yearID = yearID,
+    teamID = teamID
+  ) %>% 
+  ggplot(aes(
+    x= yearID,
+    y= SLG,
+    color = teamID 
+    ))+geom_line()
+```
+
+```{r}
+Teams %>% 
+  mutate( X1B = H-X2B-X3B-HR) %>% 
+  summarize(
+    BA = H/AB,
+    SLG = ( X1B + 2*X2B + 3*X3B + 4*HR)/AB,
+    yearID = yearID,
+    teamID = teamID
+  ) %>% 
+  ggplot(aes(
+    x= yearID,
+    y= BA,
+    color = teamID 
+    ))+geom_line()
+
+```
+
+# Part 4: Textbook, Section 4.4, Exercise 7
+```{r}
+Teams %>% 
+  mutate( X1B = H-X2B-X3B-HR) %>% 
+  summarize(
+    teamID = teamID,
+    SLG = ( X1B + 2*X2B + 3*X3B + 4*HR)/AB
+  ) %>% 
+  arrange(desc(SLG)) %>% 
+  head(5)
+```
+```{r}
+
+Teams %>% 
+  filter(yearID >= 1969) %>% 
+  mutate( X1B = H-X2B-X3B-HR) %>% 
+  summarize(
+    teamID = teamID,
+    SLG = ( X1B + 2*X2B + 3*X3B + 4*HR)/AB
+  ) %>% 
+  arrange(desc(SLG)) %>% 
+  head(5)
+  
+```
+
+# Part 5: Textbook, Section 4.4, Exercise 8
+a.
+```{r}
+
+Teams %>% 
+  filter (yearID >= 1954) %>% 
+  group_by(lgID) %>% 
+  mutate( X1B = H-X2B-X3B-HR) %>% 
+  summarise(
+    teamID = teamID,
+    SLG = ( X1B + 2*X2B + 3*X3B + 4*HR)/AB,
+    year = yearID
+  ) %>% 
+  ggplot(aes(
+    x = year,
+    y = SLG,
+    color = lgID
+  ))+geom_line(theme = "smooth")
+```
+
+AL does have a higher SLG since 1954. According to the graph, most of the time, AL line is above NL line, therefore, it will has a higher mean compare to the others.
+
+
+# Part 6: Textbook, Section 5.5, Exercise 1
+
+```{r}
+statenames <- tibble(names = state.name, twoletter = state.abb)
+glimpse(statenames)
+```
+
+```{r}
+statedata <- tibble(
+  names = state.name, 
+  income = state.x77[, 2], 
+  illiteracy = state.x77[, 3]
+  )
+glimpse(statedata)
+```
+
+
+```{r}
+library(ggrepel)
+
+statedata %>% 
+  left_join(statenames, by = c("names" = "names")) %>% 
+  ggplot(aes(
+    x = illiteracy,
+    y = income,
+    color = twoletter
+  ))+geom_point()+geom_label_repel( label = rownames(statedata))
+
+
+```
+
+
+
+# Part 7: Textbook, Section 5.5, Exercise 2
+
+
+Part a. 
+
+```{r}
+
+```
+
+
+Part b.
+
+```{r}
+
+```
+
+
+Part c.
+
+```{r}
+
+```
+
