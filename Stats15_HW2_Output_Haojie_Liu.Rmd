@@ -72,7 +72,7 @@ baby_subset %>%
 
 # Part 2: Textbook, Section 4.4, Exercise 3
 
-The problem with the pipeline is that there will be no column called "am" after summarize the avg_mpg by mean(mpg). Therefore, no data will be filter out from the statement.
+The problem with the pipeline is that there will be no column called "am" after summarize the avg_mpg by mean(mpg). Therefore, filter() should placed before summarize() to filter the data.
 
 
 # Part 3: Textbook, Section 4.4, Exercise 4
@@ -95,10 +95,10 @@ Teams %>%
     x= yearID,
     y= SLG,
     color = teamID 
-    ))+geom_line()
+    ))+geom_point(size=2)+geom_smooth(se =FALSE)
 ```
 
-```{r}
+```{r  fig.width = 30, fig.asp = 0.8, out.width = "100%"}
 Teams %>% 
   mutate( X1B = H-X2B-X3B-HR) %>% 
   summarize(
@@ -111,7 +111,7 @@ Teams %>%
     x= yearID,
     y= BA,
     color = teamID 
-    ))+geom_line()
+    ))+geom_point(size =2)+geom_smooth(se =FALSE)
 
 ```
 
@@ -157,7 +157,8 @@ Teams %>%
     x = year,
     y = SLG,
     color = lgID
-  ))+geom_line(theme = "smooth")
+  ))+geom_point()+
+  geom_smooth()
 ```
 
 AL does have a higher SLG since 1954. According to the graph, most of the time, AL line is above NL line, therefore, it will has a higher mean compare to the others.
@@ -180,18 +181,21 @@ glimpse(statedata)
 ```
 
 
-```{r}
+```{r  fig.width = 10, fig.asp = 0.8, out.width = "100%"}
 library(ggrepel)
 
+statedata <- statedata %>% 
+  left_join(statenames, by = c("names" = "names"))
+
 statedata %>% 
-  left_join(statenames, by = c("names" = "names")) %>% 
   ggplot(aes(
     x = illiteracy,
     y = income,
-    color = twoletter
-  ))+geom_point()+geom_label_repel( label = rownames(statedata))
-
-
+    color = names
+  ))+
+  geom_point()+
+  geom_text_repel(data = statedata, aes(label = twoletter))+
+  geom_smooth(se = FALSE)
 ```
 
 
@@ -203,12 +207,34 @@ Part a.
 
 ```{r}
 
+Batting %>% 
+  group_by(playerID) %>% 
+  summarise(
+    total_HR = sum(HR),
+    total_SB = sum(SB)
+  ) %>% 
+  right_join(People, by = c("playerID" = "playerID")) %>% 
+  filter(total_HR >= 300 ) %>% 
+  filter(total_SB >= 300) %>% 
+  select(playerID, nameFirst, nameLast, nameGiven, total_HR, total_SB)
+  
+
 ```
 
 
 Part b.
 
 ```{r}
+Pitching %>% 
+  group_by(playerID) %>% 
+  summarise(
+    total_W = sum(W),
+    total_SO = sum(SO)
+  ) %>% 
+  right_join(People, by = c("playerID" = "playerID")) %>% 
+  filter(total_W >= 300 ) %>% 
+  filter(total_SO >= 3000) %>% 
+  select(playerID, nameFirst, nameLast, nameGiven, total_W, total_SO)
 
 ```
 
@@ -216,6 +242,18 @@ Part b.
 Part c.
 
 ```{r}
+Batting %>%
+  group_by(playerID, yearID) %>%
+  summarize(
+    TotalHR = sum(HR), 
+    BA = sum(H)/sum(AB
+    )) %>%
+  right_join(People, by = c("playerID" = "playerID")) %>%
+  filter(TotalHR >= 50) %>%
+  select( yearID, nameFirst, nameLast, nameGiven, TotalHR, BA) %>%
+  arrange(BA)
+
 
 ```
+Pete Alonso in 2019 has the lowest batting average
 
