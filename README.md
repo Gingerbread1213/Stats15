@@ -137,9 +137,20 @@ Statistic
   [std]
  
 
+ggplot()
+  geom_point()
+    position_jitterdodge(jitter.width = , dodge.width =, alpha = )
+    [set the width of the overlap, alpha means transparency]
+    
+  geom_line()
+  geom_histogram()
+    (please note that there will only be X appeal in the aes() )
+    ..x..
+    (".." notation shows the relative frequency1)
   
   
-  
+summary data 
+   str()
   
   
   
