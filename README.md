@@ -33,6 +33,9 @@ tydiverse()
 dplyr()
   anti_join()
   (Filter out that table A doesn't has item similar to table B)
+  
+  bind_rows()
+  (combine two table by rows)
 
   count()
   (# of each items in the col)
@@ -143,6 +146,7 @@ ggplot()
     [set the width of the overlap, alpha means transparency]
     
   geom_line()
+  
   geom_histogram()
     (please note that there will only be X appeal in the aes() )
     ..x..
@@ -151,7 +155,48 @@ ggplot()
   
 summary data 
    str()
+   
+   lm( y~x, data = "")
+   [find the linear regression of the data]
+   
+   summary()
+   
+   df[[x]][y]
+   (select x row the y col)
+    df <- gapminder[[y]][x]
+    (store a single variable)
+
+    ef <- gapminder[x,y]
+    (store the data into a data frame)
+   
+   
+   
+broom()
+   nest(-x)
+   [turn data into one row per variable, -x means nest all except x]
+   
+   tidy()
+   [similar to summary]
+   
+   unnest()
+   [doing opposite of nest]
   
+  
+purrr()
+  map(x, ~ .)
+  [applies an operation to each item in a list, x is the column imported, thing behind ~ are the operations]
+
+
+
+
+
+
+
+
+
+
+
+
   
   
  
