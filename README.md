@@ -151,8 +151,48 @@ ggplot()
     (please note that there will only be X appeal in the aes() )
     ..x..
     (".." notation shows the relative frequency1)
+    
+  theme()
+    legend.position = "none"
+      [close the legend]
+    axis.ticks = element_blank()
+      [element blank = none or FALSE,
+       which means to remove the ticks]
+    axis.title = element_text()
+      [set title]
+    axis.text = element_text()
+      [set text]
+    linetype = ""
+      [set linetype]
+    
+  geom_segment(aes(xend = 30, yend = country), size = 2) 
+    (draw the graph by segment)
+    
+  geom_text(aes(label = round(lifeExp,1)), color = "white", size = 1.5) 
+    (put labels on the graph, round() will set the point shape of the graph)
+    
+  scale_x_continuous("", expand = c(0,0), limits = c(30,90), position = "top") 
+    (set the window of x)
+    
+  scale_color_gradientn(colors = palette) 
+    (set the color of the scale)
+    
+  labs(title = "Highest and lowest life expectancies, 2007", caption = "Source: gapminder" )
+    (label the title and caption of the graph)
   
+  annotate(
+    "curve",
+    x = x_start, y = y_start,
+    xend = x_end, yend = y_end,
+    arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+    color = "grey40"
+  )
+    (annotate the graph by putting caption)
   
+  geom_vline()
+    (draw a vertical line on the graph)
+    
+    
 summary data 
    str()
    
