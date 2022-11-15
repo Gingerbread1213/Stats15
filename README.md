@@ -141,10 +141,16 @@ Statistic
  
 
 ggplot()
+
+  geom_bar()
+    position = "stack"
+    
+  geom_col()
+    
   geom_point()
     position_jitterdodge(jitter.width = , dodge.width =, alpha = )
     [set the width of the overlap, alpha means transparency]
-    
+  
   geom_line()
   
   geom_histogram()
@@ -234,9 +240,29 @@ purrr()
 
 
 
-
-
+SQL starts from here:
+##############################################################################################################
 
   
+SELECT x AS y FROM z
+  [select column x, name it as y, from dataset z]
+
+
+COUNT(x)
+  x = *
+    [tells you how many records are in a table]
+  x = col name
+    [tells you how many records will contain this col name]
+
+
+
+
+
+
+
+
+
+
+
   
  
