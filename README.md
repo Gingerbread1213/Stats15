@@ -243,10 +243,24 @@ purrr()
 SQL starts from here:
 ##############################################################################################################
 
+Order of EXECUTION:
+
+  * FROM
+  * WHERE
+  * SELECT AS
+  * LIMIT
+  
+  
   
 SELECT x AS y FROM z
   [select column x, name it as y, from dataset z]
-
+  
+  SELECT * 
+  [select all columns]
+  
+  DISTINCT
+  [select variables that is unique in the column]
+    
 
 COUNT(x)
   x = *
@@ -254,8 +268,70 @@ COUNT(x)
   x = col name
     [tells you how many records will contain this col name]
 
+      COUNT(DISTINCT(x))
+      [count the number of unique variables that are appeals inside X]
+
+LIMIT X
+  [limit the number(X) of variables that will return]
+  
+  
+WHERE 
+  [filter, similar to R]
+
+  <> [not equal to]
+  
+  OR
+  [||]
+  AND
+  [&&]
+  
+  % will match zero or many characters
+  _ will match a single character.
+    [e.g. _r% means second letter is r]
+    
+  IS NULL
+  IS NOT NULL
+  
 
 
+AVG()
+  [Average]
+
+SUM()
+  [summation]
+
+MIN()
+  [Lowest]
+
+MAX()
+  [highest]
+
+ROUND(number, decimal_places)
+  [Round up decimals]
+
+
+ORDER BY 
+  [arrange the table by the column selected]
+  
+  ASC
+  [Ascending]
+  
+  DESC
+  [Descending]
+
+GROUP BY
+
+HAVING 
+  [filter grouped records]
+
+INNER JOIN ____  
+ON ____ = ____
+  AND ____ = ____
+  
+  [use table.column_name to selecting columns]
+
+USING(x)
+  [match the table with column x]
 
 
 
