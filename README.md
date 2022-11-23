@@ -292,6 +292,8 @@ WHERE
   IS NULL
   IS NOT NULL
   
+  IN
+    [similar to %in%]
 
 
 AVG()
@@ -329,13 +331,35 @@ ON ____ = ____
   AND ____ = ____
   
   [use table.column_name to selecting columns]
+  
+  
+LEFT JOIN
+
+RIGHT JOIN
+
+FULL JOIN
+
+CROSS JOIN 
+  [vs. to INNER JOIN, this will JOIN base on the right table instead of LEFT]
 
 USING(x)
   [match the table with column x]
 
 
+UNION 
+  [combine all of the distinct variables]
+
+UNION ALL
+  (combine everything together with duplication)
+  
+INTERSECT
+  
+EXCEPT
 
 
+CASE WHEN x = y THEN z
+ ELSE a END AS b
+[similar to if else statement, but mutate b at the end of the statement]
 
 
 
